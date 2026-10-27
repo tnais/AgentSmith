@@ -264,7 +264,7 @@ Browser and authorized client applications
 
 ### Container and runtime responsibilities
 
-- Deploy Agent Smith as a stateless Java 25 application image. The React
+- Deploy Agent Smith as a stateless Java 25 web application image. The React
   frontend is already built by Maven and packaged as Spring Boot static
   resources; it does not need a separate production container.
 - Keep Elasticsearch external and separately operated. Do not add a new
@@ -274,14 +274,16 @@ Browser and authorized client applications
   network rules that allow only required ingress and outbound dependencies.
 - Run the ingestion CLI interactively on an operator workstation by default.
   If containerized, run it as a one-shot command/job with a terminal attached,
-  a read-only document mount, and its own write-scoped secret. Do not run it
-  as an always-on service or bake credentials/documents into the image.
+  a document directory, and getting the secrets from environment varialbes. 
+  Do not bake credentials/documents into the executable image.
 - Run containers as non-root with a read-only filesystem where practical.
   Provide health/readiness probes and ensure logs and health endpoints never
   expose credentials or retrieved document content.
 - Inject the Gemini, embedding-provider, and Elasticsearch settings at
   runtime. Never pass secrets through Docker build arguments, frontend
   variables, image labels, or committed Compose files.
+- Use environment variables to pass the secrets to ther app, and use the host 
+  environment variables to set the environment variables in the docker image
 
 Before release, align the checked-in Docker packaging: `pom.xml` names the
 artifact `AgentSmith.jar`, but `src/main/docker/Dockerfile.txt` currently
