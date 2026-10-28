@@ -2,3 +2,36 @@ spring:
   main:
     banner-mode: off
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+  endpoint:
+    health:
+      show-details: never
+      probes:
+        enabled: true
+        add-additional-paths: true
+      group:
+        readiness:
+          include: readinessState,ragReadiness
+
+agentsmith:
+  security:
+    rag:
+      enabled: ${AGENTSMITH_RAG_SECURITY_ENABLED:false}
+      operator-username: ${AGENTSMITH_RAG_OPERATOR_USERNAME:}
+      operator-password-hash: ${AGENTSMITH_RAG_OPERATOR_PASSWORD_HASH:}
+  rag:
+    enabled: false
+    answer-model-id: ${RAG_ANSWER_MODEL_ID:}
+    config-file: ${AGENTSMITH_RAG_CONFIG_FILE:./data/agentsmith-rag.properties}
+    embedding-model: ${EMBEDDING_MODEL:}
+    embedding-dimensions: ${EMBEDDING_DIMENSIONS:0}
+    elasticsearch-url: ${ELASTICSEARCH_URL:}
+    elasticsearch-read-api-key: ${AGENTSMITH_ES_READ_API_KEY:}
+    elasticsearch-index-alias: ${RAG_INDEX_ALIAS:agentsmith-rag-v1-active}
+    max-results: 5
+    max-question-characters: 4000
+    max-context-characters: 20000

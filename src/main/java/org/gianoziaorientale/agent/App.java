@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "org.gianoziaorientale")
 @RestController
 public class App {
 
@@ -55,7 +55,8 @@ public class App {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErroreResponse> gestisciErroreModello(Exception e) {
-        log.error("Errore durante la comunicazione con il modello", e);
+        log.error("Errore durante la comunicazione con il modello: errorType={}",
+                e.getClass().getSimpleName());
         for (Throwable t = e; t != null; t = t.getCause() == t ? null : t.getCause()) {
             switch (t) {
                 case RateLimitException _ -> {

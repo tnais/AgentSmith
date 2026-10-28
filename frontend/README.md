@@ -12,7 +12,7 @@ export GEMINI_API_KEY=your-gemini-api-key
 export OPEN_WEB_UI_BASE_URL=https://openwebui.mygor.xyz
 export OPEN_WEB_UI_API_KEY=your-openwebui-api-key
 mvn clean package
-java -jar target/ClientAI.jar
+java -jar target/AgentSmith.jar
 ```
 
 Then open `http://localhost:8080`. Maven installs the pinned Node.js runtime,
